@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pais;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,4 +26,15 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function indexRegister(){
+        $pais=Pais::all();
+
+        return view('auth.register',compact('pais'));
+
+    }
+
+
+
+
 }

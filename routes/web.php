@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserEstudianteController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UserEstudianteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,6 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+//TODO:INSTITUCION
+//mandando paises a esta vista
+Route::get('register',[RegisterController::class,'indexRegister'])->name('register');
