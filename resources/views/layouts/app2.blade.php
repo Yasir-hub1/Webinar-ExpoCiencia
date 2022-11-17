@@ -19,13 +19,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
     <!-- ================== END APP CSS ================== -->
-
-    <!-- ================== BEGIN POLYFILLS  ================== -->
-    <!--[if lt IE 9]>
-      <script src="assets/libs/html5shiv/js/html5shiv.js"></script>
-      <script src="assets/libs/respondjs/js/respond.min.js"></script>
-   <![endif]-->
-    <!-- ================== END POLYFILLS  ================== -->
+    @yield('css')
 </head>
 
 <body>
@@ -282,13 +276,13 @@
                         </a>
                         <ul aria-expanded="false" class="nav-second-level">
                             <li class="side-nav-item">
-                                <a class="side-nav-link" href="index.html">Mis seminarios</a>
+                                <a class="side-nav-link" href="index.html">Mis Seminarios</a>
                             </li>
                             <li class="side-nav-item">
-                                <a class="side-nav-link" href="dashboard2.html">Participantes</a>
+                                <a class="side-nav-link" href="{{route('indexParticipanteLocal')}}">Mis Participantes</a>
                             </li>
                             <li class="side-nav-item">
-                                <a class="side-nav-link" href="dashboard3.html"> Participantes Invitados </a>
+                                <a class="side-nav-link" href="dashboard3.html">Mis Invitados </a>
                             </li>
                         </ul>
                     </li>
@@ -334,7 +328,7 @@
                 <div class="spinner-border avatar-sm text-primary m-2" role="status"></div>
             </div>
         </div>
-        <footer class="footer">
+       {{--  <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6 mb-1 mb-md-0">
@@ -346,20 +340,15 @@
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer> --}}
 
 
     </div>
-    <!-- Page End -->
-    <!-- ================== BEGIN BASE JS ================== -->
-    <script src="{{ asset('js/vendor.min.js') }}"></script>
-    <!-- ================== END BASE JS ================== -->
 
-    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-    <!-- ================== END PAGE LEVEL JS ================== -->
-    <!-- ================== BEGIN PAGE JS ================== -->
+    <script src="{{ asset('js/vendor.min.js') }}"></script>
+
     <script src="{{ asset('js/app.js') }}"></script>
-    <!-- ================== END PAGE JS ================== -->
+    @yield('js')
 </body>
 
 </html>

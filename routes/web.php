@@ -31,3 +31,7 @@ Route::get('register',[RegisterController::class,'indexRegister'])->name('regist
 
 //RUTA PARA MOSTRAR EL INICIO DESPUES DEL LOGUEO
 Route::get('/Institucion/Inicio',[HomeController::class,'Inicio'])->name('inicio');
+
+
+//TODO:PARTICIPANTES LOCALES
+Route::get('/Institucion/participantes',[HomeController::class,'indexParticipanteLocal'])->name('indexParticipanteLocal');

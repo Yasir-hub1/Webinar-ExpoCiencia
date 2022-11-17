@@ -44,4 +44,12 @@ class HomeController extends Controller
 
 
 
+    //TODO: FUNCIONES PARA LOS PARTICIPANTES LOCALES
+    public function indexParticipanteLocal(){
+        return view('Institucion.miParticipanteLocal');
+    }
+
+
+
+
 }
