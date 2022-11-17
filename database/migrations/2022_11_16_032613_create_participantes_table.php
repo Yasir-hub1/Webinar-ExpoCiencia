@@ -22,6 +22,12 @@ class CreateParticipantesTable extends Migration
             ->cascadeOnUpdate()
             ->nullOnDelete();
 
+            $table->foreignId('profesion_id')
+            ->nullable()
+            ->constrained('profesions')
+            ->cascadeOnUpdate()
+            ->nullOnDelete();
+
             $table->string('nombre');
             $table->string('foto');
             $table->string('profesion');
