@@ -28,3 +28,6 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 //TODO:INSTITUCION
 //mandando paises a esta vista
 Route::get('register',[RegisterController::class,'indexRegister'])->name('register');
+
+//RUTA PARA MOSTRAR EL INICIO DESPUES DEL LOGUEO
+Route::get('/Institucion/Inicio',[HomeController::class,'Inicio'])->name('inicio');

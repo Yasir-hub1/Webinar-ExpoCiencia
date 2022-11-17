@@ -34,6 +34,13 @@ class HomeController extends Controller
 
     }
 
+    //TODO: FUNCIONES PARA LA INSTITUCION
+
+    //MOSTRAR VISTA PRINCIPAL AL LOGUEARSE
+    public function Inicio(){
+        return view('Institucion.inicio');
+    }
+
 
 
 

@@ -13,6 +13,7 @@ class CreateParticipantesTable extends Migration
      */
     public function up()
     {
+        //PARTICIPANTES INVITADOS
         Schema::create('participantes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('seminarios_id')
