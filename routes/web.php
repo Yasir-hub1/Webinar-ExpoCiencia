@@ -35,3 +35,7 @@ Route::get('/Institucion/Inicio',[HomeController::class,'Inicio'])->name('inicio
 
 //TODO:PARTICIPANTES LOCALES
 Route::get('/Institucion/participantes',[HomeController::class,'indexParticipanteLocal'])->name('indexParticipanteLocal');
+Route::post('/Institucion/store',[HomeController::class,'storeParticipanteLocal'])->name('store.Participante.Local');
+Route::get('/Institucion/edit/{participante}',[HomeController::class,'editParticipanteLocal'])->name('edit.Participante.Local');
+Route::put('/Institucion/update/{id}',[HomeController::class,'updateParticipanteLocal'])->name('update.Participante.Local');
+Route::delete('/Institucion/delete/{id}',[HomeController::class,'deleteParticipanteLocal'])->name('delete.Participante.Local');

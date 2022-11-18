@@ -2,10 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ParticipanteLocal;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Profesion extends Model
 {
     use HasFactory;
+
+     // relacion de 1 a muchos de Profesion a participantes locales
+     public function partLocales()
+     {
+         return $this->hasMany(ParticipanteLocal::class, 'id');
+     }
 }
