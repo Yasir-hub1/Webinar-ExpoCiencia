@@ -39,3 +39,10 @@ Route::post('/Institucion/store',[HomeController::class,'storeParticipanteLocal'
 Route::get('/Institucion/edit/{participante}',[HomeController::class,'editParticipanteLocal'])->name('edit.Participante.Local');
 Route::put('/Institucion/update/{id}',[HomeController::class,'updateParticipanteLocal'])->name('update.Participante.Local');
 Route::delete('/Institucion/delete/{id}',[HomeController::class,'deleteParticipanteLocal'])->name('delete.Participante.Local');
+
+//TODO: INVITADOS
+Route::get('/Institucion/invitados',[HomeController::class,'indexInvitado'])->name('indexInvitado');
+Route::post('/Institucion/invitadosstore',[HomeController::class,'storeInvitado'])->name('store.Invitado');
+Route::get('/Institucion/invitadosedit/{invitado}',[HomeController::class,'editInvitado'])->name('edit.Invitado');
+Route::put('/Institucion/invitadosupdate/{id}',[HomeController::class,'updateInvitado'])->name('update.Invitado');
+Route::delete('/Institucion/invitadosdelete/{id}',[HomeController::class,'deleteInvitado'])->name('delete.Invitado');

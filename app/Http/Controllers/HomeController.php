@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pais;
+use App\Models\Participante;
 use App\Models\ParticipanteLocal;
 use App\Models\Profesion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
 {
@@ -82,9 +84,9 @@ class HomeController extends Controller
     // VISTA DE EDICION DE DATOS DEL PARTICIPANTE
     public function editParticipanteLocal(ParticipanteLocal $participante)
     {
-        $profesion=Profesion::all();
+        $profesion = Profesion::all();
 
-        return view('Institucion.participanteLocal.edit', compact('participante','profesion'));
+        return view('Institucion.participanteLocal.edit', compact('participante', 'profesion'));
     }
 
     // ACTUALIZANDO DATOS DE LA BD DEL PARTICIPANTE
@@ -102,10 +104,107 @@ class HomeController extends Controller
     }
 
     // ELIMINA UN PARTICIPANTE DE LA LISTA
-    public function deleteParticipanteLocal($id){
+    public function deleteParticipanteLocal($id)
+    {
 
-        $elim=ParticipanteLocal::find($id);
+        $elim = ParticipanteLocal::find($id);
         $elim->delete();
         return redirect()->back();
+    }
+
+    //TODO: FUNCIONES PARA LOS INVITADOS
+
+    //VIsta pricipal de participantes invitados
+    public function indexInvitado()
+    {
+        $profesion = Profesion::all();
+        $invitado = Participante::where('institucion_id', Auth::user()->id)->get();
+        return view('Institucion.Invitados.index', compact('profesion', 'invitado'));
+    }
+
+    // Guardando datos de participantes invitados
+    public function storeInvitado(Request $request)
+    {
+
+
+        $invitado = new Participante;
+        $invitado->profesion_id = $request->profesion_id;
+        $invitado->institucion_id = $request->institucion_id;
+        $invitado->nombre = $request->nombre;
+        $invitado->correo = $request->correo;
+        $invitado->telefono = $request->telefono;
+
+        if ($request->hasFile('foto')) {
+
+            $imagen = time() . '.' . $request->file('foto')->getClientOriginalExtension();
+            $request->file('foto')->storeAs('image/participantes/invitados', $imagen);
+            $destino = public_path('image/participantes/invitados');
+            $request->foto->move($destino, $imagen);
+
+            $invitado->update(['foto' => $imagen]);
+        } else {
+            $imagen = 'rpredeterminada.jpg';
+        }
+        $invitado->foto = $imagen;
+
+        $invitado->biografia = $request->biografia;
+
+        $invitado->save();
+
+        return redirect()->back();
+    }
+
+    // visto de edit datos del invitado
+    public function editInvitado(Participante $invitado)
+    {
+        $profesion = Profesion::all();
+        return view('Institucion.Invitados.edit', compact('invitado', 'profesion'));
+    }
+
+
+    //actualizando datos del invitado
+    public function updateInvitado(Request $request, $id)
+    {
+        $invitado = Participante::find($id);
+        $invitado->profesion_id = $request->profesion_id;
+        // $invitado->institucion_id = Auth::user()->id;
+        $invitado->nombre = $request->nombre;
+        $invitado->correo = $request->correo;
+        $invitado->telefono = $request->telefono;
+
+        if ($request->hasFile('foto')) {
+
+            $imagen = time() . '.' . $request->file('foto')->getClientOriginalExtension();
+            // $request->file('foto')->storeAs('image/participantes/invitados', $imagen);
+            $destino = public_path('image/participantes/invitados');
+            if ($invitado->foto != '') {
+
+                unlink(public_path('image/participantes/invitados/' . $invitado->foto));
+            }
+            $request->foto->move($destino, $imagen);
+
+            $invitado->update(['foto' => $imagen]);
+        } else {
+            $imagen =$invitado->foto;
+        }
+        $invitado->foto = $imagen;
+
+        $invitado->biografia = $request->biografia;
+
+        $invitado->update();
+
+        return redirect()->route('indexInvitado');
+    }
+
+    //ELIMINANDO UN INVITADO
+    public function deleteInvitado($id)
+    {
+        $invitado = Participante::find($id);
+        if ($invitado->foto != '') {
+
+            unlink(public_path('image/participantes/invitados/' . $invitado->foto));
+        }
+        $invitado->delete();
+        return redirect()->route('indexInvitado');
     }
 }

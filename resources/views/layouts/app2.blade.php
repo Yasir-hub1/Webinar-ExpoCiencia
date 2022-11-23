@@ -282,7 +282,7 @@
                                 <a class="side-nav-link" href="{{route('indexParticipanteLocal')}}">Mis Participantes</a>
                             </li>
                             <li class="side-nav-item">
-                                <a class="side-nav-link" href="dashboard3.html">Mis Invitados </a>
+                                <a class="side-nav-link" href="{{route('indexInvitado')}}">Mis Invitados </a>
                             </li>
                         </ul>
                     </li>

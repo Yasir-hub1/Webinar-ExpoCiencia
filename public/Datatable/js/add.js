@@ -90,7 +90,7 @@ var KTModalCustomersAdd = (function () {
                                 text: "¡El formulario ha sido enviado con éxito!",
                                 icon: "success",
                                 buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
+                                confirmButtonText: "Ok",
                                 customClass: {
                                     confirmButton: "btn btn-primary",
                                 },

@@ -16,11 +16,7 @@ class CreateParticipantesTable extends Migration
         //PARTICIPANTES INVITADOS
         Schema::create('participantes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('seminarios_id')
-            ->nullable()
-            ->constrained('seminarios')
-            ->cascadeOnUpdate()
-            ->nullOnDelete();
+
 
             $table->foreignId('profesion_id')
             ->nullable()
@@ -28,10 +24,18 @@ class CreateParticipantesTable extends Migration
             ->cascadeOnUpdate()
             ->nullOnDelete();
 
-            $table->string('nombre');
-            $table->string('foto');
-            $table->string('profesion');
-            $table->string('biografia');
+            $table->foreignId('institucion_id')
+            ->nullable()
+            ->constrained('users')
+            ->cascadeOnUpdate()
+            ->nullOnDelete();
+
+            $table->string('nombre')->nullable();
+            $table->string('correo')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('foto')->nullable();
+
+            $table->string('biografia')->nullable();
 
             $table->timestamps();
         });

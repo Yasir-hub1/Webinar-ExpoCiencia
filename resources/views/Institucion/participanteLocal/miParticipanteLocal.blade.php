@@ -36,6 +36,7 @@
                 </div>
             </div>
         </div>
+
         <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 
             <div class="container-xxl" id="kt_content_container">
@@ -60,7 +61,7 @@
                                 </span>
                                 <!--end::Svg Icon-->
                                 <input type="text" data-kt-customer-table-filter="search"
-                                    class="form-control form-control-solid w-250px ps-15" placeholder="Search Customers" />
+                                    class="form-control form-control-solid w-250px ps-15" placeholder="Buscar" />
                             </div>
                             <!--end::Search-->
                         </div>
@@ -126,20 +127,21 @@
                             <tbody class="fw-semibold text-gray-600"
                                 style="justify-content: center;align-items: center;align-self: center;">
                                 @php
-                                $i=1;
-                            @endphp
+                                    $i = 1;
+                                @endphp
                                 @foreach ($partLocales as $partLocale)
                                     <tr>
 
                                         <td>
                                             <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                                <input class="form-check-input" type="checkbox" value="{{$partLocale->id}}" />
+                                                <input class="form-check-input" type="checkbox"
+                                                    value="{{ $partLocale->id }}" />
                                             </div>
                                         </td>
 
                                         <td>
                                             <a href="/metronic8/demo3/../demo3/apps/customers/view.html"
-                                                class="text-gray-800 text-hover-primary mb-1">{{$i++}}</a>
+                                                class="text-gray-800 text-hover-primary mb-1">{{ $i++ }}</a>
                                         </td>
 
                                         <td>
@@ -174,20 +176,21 @@
                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
                                                 data-kt-menu="true">
 
-                                               {{--  <div class="menu-item px-3">
+                                                {{--  <div class="menu-item px-3">
                                                     <a href="/metronic8/demo3/../demo3/apps/customers/view.html"
                                                         class="menu-link px-3">Ver</a>
                                                 </div> --}}
 
                                                 <div class="menu-item px-3">
-                                                    <a href="{{route('edit.Participante.Local',$partLocale->id)}}"
+                                                    <a href="{{ route('edit.Participante.Local', $partLocale->id) }}"
                                                         class="menu-link px-3">Editar</a>
                                                 </div>
-                                                <form action="{{route('delete.Participante.Local',$partLocale->id)}}" method="post">
+                                                <form action="{{ route('delete.Participante.Local', $partLocale->id) }}"
+                                                    method="post">
                                                     @csrf
                                                     @method('DELETE')
                                                     <div class="menu-item px-3">
-                                                        <button type="submit"  class="menu-link px-3 btn btn-outline"
+                                                        <button type="submit" class="menu-link px-3 btn btn-outline"
                                                             data-kt-customer-table-filter="delete_row">Eliminar</button>
                                                     </div>
                                                 </form>
@@ -214,8 +217,9 @@
                         <!--begin::Modal content-->
                         <div class="modal-content">
                             <!--begin::Form-->
-                            <form name="enviarFormulario" class="form" action="{{ route('store.Participante.Local') }}"
-                                method="POST" id="kt_modal_add_customer_form">
+                            <form name="enviarFormulario" class="form"
+                                action="{{ route('store.Participante.Local') }}" method="POST"
+                                id="kt_modal_add_customer_form">
 
                                 @csrf
                                 @method('POST')
