@@ -46,3 +46,11 @@ Route::post('/Institucion/invitadosstore',[HomeController::class,'storeInvitado'
 Route::get('/Institucion/invitadosedit/{invitado}',[HomeController::class,'editInvitado'])->name('edit.Invitado');
 Route::put('/Institucion/invitadosupdate/{id}',[HomeController::class,'updateInvitado'])->name('update.Invitado');
 Route::delete('/Institucion/invitadosdelete/{id}',[HomeController::class,'deleteInvitado'])->name('delete.Invitado');
+
+
+//TODOO: SEMINARIOS
+Route::get('/Institucion/seminario',[HomeController::class,'indexSeminario'])->name('indexSeminario');
+Route::post('/Institucion/seminariostore',[HomeController::class,'storeSeminario'])->name('store.Seminario');
+Route::get('/Institucion/seminarioedit/{seminario}',[HomeController::class,'editSeminario'])->name('edit.Seminario');
+Route::put('/Institucion/seminarioupdate/{id}',[HomeController::class,'updateSeminario'])->name('update.Seminario');
+Route::delete('/Institucion/seminariodelete/{id}',[HomeController::class,'deleteSeminario'])->name('delete.Seminario');

@@ -276,7 +276,7 @@
                         </a>
                         <ul aria-expanded="false" class="nav-second-level">
                             <li class="side-nav-item">
-                                <a class="side-nav-link" href="index.html">Mis Seminarios</a>
+                                <a class="side-nav-link" href="{{route('indexSeminario')}}">Mis Seminarios</a>
                             </li>
                             <li class="side-nav-item">
                                 <a class="side-nav-link" href="{{route('indexParticipanteLocal')}}">Mis Participantes</a>

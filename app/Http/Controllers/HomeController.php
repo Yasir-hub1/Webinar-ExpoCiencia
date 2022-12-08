@@ -207,4 +207,9 @@ class HomeController extends Controller
         $invitado->delete();
         return redirect()->route('indexInvitado');
     }
+
+    //TODO: FUNCIONES PARA EL SEMINIARIO
+    public function indexSeminario(){
+      return view('Institucion.seminarios.index');
+    }
 }
