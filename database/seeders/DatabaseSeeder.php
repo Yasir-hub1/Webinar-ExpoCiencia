@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\PaisSeeder;
+use Database\Seeders\IdiomaSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,5 +18,6 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call(ProfesionSeeder::class);
         $this->call(PaisSeeder::class);
+        $this->call(IdiomaSeeder::class);
     }
 }

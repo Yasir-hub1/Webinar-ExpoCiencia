@@ -16,19 +16,19 @@
         <div class="container-fluid">
             <div class="page-title dflex-between-center">
                 <h3 class="mb-1 font-weight-bold">Mis Seminarios</h3>
-                <!-- <ol class="breadcrumb mb-0 mt-1">
-                                                <li class="breadcrumb-item">
-                                                    <a href="../index.html">
-                                                        <i class="bx bx-home fs-xs"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="breadcrumb-item">
-                                                    <a href="calender.html">
-                                                        Apps
-                                                    </a>
-                                                </li>
-                                                <li class="breadcrumb-item active">Projects</li>
-                                            </ol> -->
+                <ol class="breadcrumb mb-0 mt-1">
+                    <li class="breadcrumb-item">
+                        <a href="../index.html">
+                            <i class="bx bx-home fs-xs"></i>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="calender.html">
+                            Inicio
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">Seminario</li>
+                </ol>
             </div>
         </div>
     </div>
@@ -189,7 +189,7 @@
                 <!--begin::Modal content-->
                 <div class="modal-content">
                     <!--begin::Form-->
-                    <form name="enviarFormulario" class="form" action="{{ route('store.Invitado') }}" method="POST"
+                    <form name="enviarFormulario" class="form" action="{{ route('store.Seminario') }}" method="POST"
                         id="kt_modal_add_customer_form" enctype="multipart/form-data">
 
                         @csrf
@@ -198,7 +198,7 @@
                         <!--begin::Modal header-->
                         <div class="modal-header" id="kt_modal_add_customer_header">
                             <!--begin::Modal title-->
-                            <h2 class="fw-bold">Añadir Invitado</h2>
+                            <h2 class="fw-bold">Agregar Seminario</h2>
                             <!--end::Modal title-->
                             <!--begin::Close-->
                             <div id="kt_modal_add_customer_close" class="btn btn-icon btn-sm btn-active-icon-primary">
@@ -228,35 +228,61 @@
                                 <!--begin::Input group-->
                                 <div class="fv-row mb-7">
 
-                                    <label class="required fs-6 fw-semibold mb-2">Nombre</label>
+                                    <label class="required fs-6 fw-semibold mb-2">Titulo</label>
 
 
                                     <input type="text" class="form-control form-control-solid"
-                                        placeholder="Docente/Estudiante" name="nombre" value="" />
+                                        placeholder="Titulo" name="titulo" value="" />
                                     <!--end::Input-->
 
-                                    <input type="hidden" name="institucion_id" value="{{ Auth::user()->id }}">
+                                    <input type="hidden" name="id_institucion" value="{{ Auth::user()->id }}">
                                 </div>
                                 <div class="fv-row mb-7">
 
-                                    <label class="required fs-6 fw-semibold mb-2">Correo</label>
+                                    <label class="required fs-6 fw-semibold mb-2">Duracion Aproximada:</label>
 
 
-                                    <input type="text" class="form-control form-control-solid" placeholder="correo"
-                                        name="correo" value="" />
+                                    <input type="text" class="form-control form-control-solid" placeholder="Tiempo del evento"
+                                        name="duracion" value="" />
                                     <!--end::Input-->
 
                                     <input type="hidden" name="institucion_id" value="{{ Auth::user()->id }}">
+
+
+                                </div>
+                                <div class="fv-row mb-7">
+
+                                    <label class="required fs-6 fw-semibold mb-2">Fecha del Seminario</label>
+
+
+                                    <input type="datetime-local" class="form-control form-control-solid" placeholder="Tiempo del evento"
+                                        name="duracion" value="" />
+                                    <!--end::Input-->
+
+
+
+
+                                </div>
+                                <div class="fv-row mb-7">
+
+                                    <label class="required fs-6 fw-semibold mb-2">Ubicacion</label>
+
+
+                                    <input type="text" class="form-control form-control-solid" placeholder="Ubicacion"
+                                        name="lugar" value="" />
+                                    <!--end::Input-->
+
+
 
 
                                 </div>
 
                                 <div class="fv-row mb-15">
 
-                                    <label class="fs-6 fw-semibold mb-2">Biografia</label>
+                                    <label class="fs-6 fw-semibold mb-2">Descripcion</label>
 
-                                    <textarea for="biografia" type="text" class="form-control form-control-solid" placeholder="Escriba aqui..."
-                                        name="biografia"> </textarea>
+                                    <textarea for="descripcion" type="text" class="form-control form-control-solid" placeholder="Escriba aqui..."
+                                        name="descripcion"> </textarea>
 
                                 </div>
 
@@ -287,42 +313,35 @@
 
                                     <div class="d-flex flex-column mb-7 fv-row">
 
-                                        <label class="required fs-6 fw-semibold mb-2">Telefono</label>
+                                        <label class="required fs-6 fw-semibold mb-2">Link de trasmision</label>
 
-                                        <input class="form-control form-control-solid" placeholder="telefono"
-                                            name="telefono" value="" />
-
-                                    </div>
-
-                                    <div class="d-flex flex-column mb-7 fv-row">
-
-                                        <label class="required fs-6 fw-semibold mb-2">Foto</label>
-
-                                        <input type="file" class="form-control form-control-solid"
-                                            placeholder="Facultad" name="foto" value="" accept="image/*" />
+                                        <input type="url" class="form-control form-control-solid" placeholder="link"
+                                            name="link" value="" />
 
                                     </div>
+
+
 
 
                                     <div class="d-flex flex-column mb-7 fv-row">
 
                                         <label class="fs-6 fw-semibold mb-2">
-                                            <span class="required">Profesión</span>
+                                            <span class="required">Idioma</span>
                                             <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                                title="Seleccione una profesión"></i>
+                                                title="Seleccione una idioma"></i>
                                         </label>
 
 
-                                        <select name="profesion_id" aria-label="Select a Country" data-control="select2"
-                                            data-placeholder="Seleccione una profesión"
+                                        <select name="id_idioma" aria-label="Select a Country" data-control="select2"
+                                            data-placeholder="Seleccione una idioma"
                                             data-dropdown-parent="#kt_modal_add_customer"
                                             class="form-select form-select-solid fw-bold">
-                                            <option value="">Seleccione una profesión</option>
+                                            <option value="">Seleccione un Idioma</option>
 
-                                            {{-- @foreach ($profesion as $profesiones)
-                                                <option value="{{ $profesiones->id }}">{{ $profesiones->nombre }}
+                                            @foreach ($idioma as $idiomas)
+                                                <option value="{{ $idiomas->id }}">{{ $idiomas->nombreIdioma }}
                                                 </option>
-                                            @endforeach --}}
+                                            @endforeach
 
 
                                         </select>

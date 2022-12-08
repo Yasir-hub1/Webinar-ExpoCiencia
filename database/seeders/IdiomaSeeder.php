@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Idioma;
 use Illuminate\Database\Seeder;
 
 class IdiomaSeeder extends Seeder
@@ -13,6 +14,44 @@ class IdiomaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $idioma =
+            [
+                [
+                    "nombreIdioma" => "Inglés"
+                ],
+                [
+                    "nombreIdioma" => "Chino"
+                ], [
+                    "nombreIdioma" => "mandarín"
+                ],
+                [
+                    "nombreIdioma" => "Hindi"
+                ],
+                [
+                    "nombreIdioma" => "Español"
+                ],
+                [
+                    "nombreIdioma" => "Francés"
+                ],
+                [
+                    "nombreIdioma" => "Árabe"
+                ],
+                [
+                    "nombreIdioma" => "Bengalí"
+                ],
+                [
+                    "nombreIdioma" => "Ruso"
+                ],
+                [
+                    "nombreIdioma" => "Portugués"
+                ],
+                [
+                    "nombreIdioma" => "Urdu"
+                ],
+
+            ];
+        foreach ($idioma as $idiomas) {
+            Idioma::create($idiomas);
+        }
     }
 }

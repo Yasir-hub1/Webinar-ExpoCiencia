@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Idioma;
 use App\Models\Pais;
 use App\Models\Participante;
 use App\Models\ParticipanteLocal;
 use App\Models\Profesion;
+use App\Models\Seminario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -208,8 +210,19 @@ class HomeController extends Controller
         return redirect()->route('indexInvitado');
     }
 
+
+
+
     //TODO: FUNCIONES PARA EL SEMINIARIO
     public function indexSeminario(){
-      return view('Institucion.seminarios.index');
+        $idioma=Idioma::all();
+      return view('Institucion.seminarios.index',compact('idioma'));
+    }
+
+    // GUARDANDO DATOS DEL SEMINARIO
+    public function storeSeminario(Request  $request){
+        $seminario= new Seminario($request->input());
+        $seminario->save();
+      return redirect()->back();
     }
 }
