@@ -32,6 +32,7 @@ class CreateSeminariosTable extends Migration
 
             $table->string('titulo');
             $table->string('descripcion');
+            $table->date('fecha');
             $table->string('duracion');
             $table->string('link');
             $table->string('videoGrabado')->nullable();

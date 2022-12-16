@@ -37,12 +37,12 @@
                             <span class="logo-lg"><img src="{{ asset('images/logo-white.png') }}"
                                     alt="Lettstart Admin"></span>
                         </a>
-                        <a href="index.html" class="logo logo-light">
+                       {{--  <a href="index.html" class="logo logo-light">
                             <span class="logo-sm"><img src="{{ asset('images/logo-sm.png') }}"
                                     alt="Lettstart Admin"></span>
                             <span class="logo-lg"><img src="{{ asset('images/logo.png') }}"
                                     alt="Lettstart Admin"></span>
-                        </a>
+                        </a> --}}
                     </div>
                     <button type="button" id="vertical-menu-btn" class="btn hamburg-icon">
                         <i class="mdi mdi-menu"></i>

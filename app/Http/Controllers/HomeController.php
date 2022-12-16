@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Idioma;
 use App\Models\Pais;
-use App\Models\Participante;
-use App\Models\ParticipanteLocal;
+use App\Models\Idioma;
+use App\Models\Asisten;
 use App\Models\Profesion;
 use App\Models\Seminario;
+use App\Models\Participante;
 use Illuminate\Http\Request;
+use App\Models\ParticipanteLocal;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -214,15 +216,53 @@ class HomeController extends Controller
 
 
     //TODO: FUNCIONES PARA EL SEMINIARIO
+
     public function indexSeminario(){
+
+        $seminario=Seminario::where('id_institucion',Auth::user()->id)->get();
+       /*  $seminarios=DB::table('seminarios')
+                      ->select('seminarios.titulo','seminarios.descripcion','participantes.nombre','')
+                      ->join('asistens','asistens.seminario_id','=','seminarios.id')
+                      ->join('participantes','participantes.id','=','asistens.invitado_id')
+                      ->where('seminarios.id_institucion',Auth::user()->id)->get(); */
+
+        $invitados=Participante::where('institucion_id',Auth::user()->id)->get();
+        $participantes=ParticipanteLocal::where('institucion_id',Auth::user()->id)->get();
         $idioma=Idioma::all();
-      return view('Institucion.seminarios.index',compact('idioma'));
+
+      return view('Institucion.seminarios.index',compact('idioma','invitados','participantes','seminario'));
     }
 
     // GUARDANDO DATOS DEL SEMINARIO
     public function storeSeminario(Request  $request){
-        $seminario= new Seminario($request->input());
+
+        // dd($request->input("id_institucion"));
+        $seminario= new Seminario;
+        $seminario->id_institucion= $request->id_institucion;
+        $seminario->id_idioma= $request->id_idioma;
+        $seminario->titulo= $request->titulo;
+        $seminario->descripcion= $request->descripcion;
+        $seminario->duracion= $request->duracion;
+        $seminario->fecha= $request->fecha;
+
+        $seminario->link= $request->link;
+
+        $seminario->lugar= $request->lugar;
         $seminario->save();
+
+        $seminario->Invitados()->attach($request->participante_id);
+        $seminario->participantes()->attach($request->participanteLocal_id);
+
+
+
+
       return redirect()->back();
+    }
+
+
+    // EDITAR UN SEMINARIO
+    public function editSeminario($id){
+    $seminario=Seminario::find($id);
+        return view('Institucion.seminarios.edit',compact('seminario'));
     }
 }

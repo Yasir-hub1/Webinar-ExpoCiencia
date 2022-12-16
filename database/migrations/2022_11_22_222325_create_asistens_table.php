@@ -15,10 +15,10 @@ class CreateAsistensTable extends Migration
     {
         Schema::create('asistens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('invitado_id');
+            $table->unsignedBigInteger('participante_id');
             $table->unsignedBigInteger('seminario_id');
 
-            $table->foreign('invitado_id')->references('id')->on('participantes');
+            $table->foreign('participante_id')->references('id')->on('participantes');
             $table->foreign('seminario_id')->references('id')->on('seminarios');
             $table->timestamps();
         });

@@ -67,6 +67,8 @@
                 </div>
             </div>
             <div class="row">
+
+                @forelse ($seminario as $seminarios)
                 <div class="col-xl-4 col-md-6">
                     <div class="card">
                         <div class="card-body">
@@ -76,33 +78,19 @@
                                 </div>
                                 <div class="media-body overflow-hidden">
                                     <h5 class="card-title mb-2 pr-4 text-truncate"><a href="#" class="text-dark"
-                                            title="Landing page Design">Landing page
-                                            Design</a></h5>
-                                    <p class="text-muted mb-3">Lorem Ipsum is simply dummy text of the
-                                        printing and
-                                        typesetting.</p>
+                                            title={{$seminarios->titulo}}>{{$seminarios->titulo}}</a></h5>
+                                    <p class="text-muted mb-3">{{$seminarios->descripcion}}</p>
                                     <div class="circle-condense-profiles">
+                                       @foreach ($seminarios->Invitados as $invi)
+
+
                                         <a href="javascript: void(0);" class="condense-profile" data-toggle="tooltip"
-                                            data-placement="top" title="" data-original-title="ProfileUser">
-                                            <img src="assets/images/users/avatar-2.jpg" alt="Lettstart Admin"
+                                            data-placement="top" title="" data-original-title={{$invi->nombre}}>
+                                            <img src="{{asset('image/participantes/invitados/'.$invi->foto)}}" alt="Lettstart Admin"
                                                 class="avatar-sm rounded-circle">
                                         </a>
-                                        <a href="javascript: void(0);" class="condense-profile" data-toggle="tooltip"
-                                            data-placement="top" title="" data-original-title="ProfileUser">
-                                            <img src="assets/images/users/avatar-2.jpg" alt="Lettstart Admin"
-                                                class="avatar-sm rounded-circle">
-                                        </a>
-                                        <a href="javascript: void(0);" class="condense-profile" data-toggle="tooltip"
-                                            data-placement="top" title="" data-original-title="ProfileUser">
-                                            <img src="assets/images/users/avatar-2.jpg" alt="Lettstart Admin"
-                                                class="avatar-sm rounded-circle">
-                                        </a>
-                                        <a href="javascript: void(0);" class="condense-profile" data-toggle="tooltip"
-                                            data-placement="top" title="" data-original-title="ProfileUser">
-                                            <div
-                                                class="avatar bg-white text-secondary op-6 font-weight-bold avatar-sm mr-0">
-                                                +3</div>
-                                        </a>
+
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -113,16 +101,16 @@
                                     <ul class="list-inline mb-0">
                                         <li class="list-inline-item">
                                             <h5 class="font-size-14 mb-0" data-toggle="tooltip" data-placement="top"
-                                                title="" data-original-title="Task">
-                                                <i class="bx bx-list-ul fs-sm text-secondary op-6 align-middle"></i>
-                                                <span class="align-middle">76</span>
+                                                title="" data-original-title="Fecha de inicio">
+                                                <i class="bx bxs-timer fs-sm text-secondary op-6 align-middle"></i>
+                                                <span class="align-middle">{{$seminarios->fecha}}</span>
                                             </h5>
                                         </li>
                                         <li class="list-inline-item">
                                             <h5 class="font-size-14 mb-0" data-toggle="tooltip" data-placement="top"
-                                                title="" data-original-title="Comments">
-                                                <i class="bx bx-comment-detail fs-sm text-secondary op-6 align-middle"></i>
-                                                <span class="align-middle">240</span>
+                                                title="" data-original-title="Tiempo">
+                                                <i class="bx bxs-time fs-sm text-secondary op-6 align-middle"></i>
+                                                <span class="align-middle">{{$seminarios->duracion}}</span>
                                             </h5>
                                         </li>
                                     </ul>
@@ -138,7 +126,7 @@
                                 <i class="mdi mdi-dots-vertical fs-sm"></i>
                             </div>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a href="#" class="dropdown-item">
+                                <a href="{{route('edit.Seminario',$seminarios->id)}}" class="dropdown-item">
                                     <i class="mdi mdi-pencil align-middle mr-1 text-primary"></i>
                                     <span>Edit</span>
                                 </a>
@@ -151,6 +139,10 @@
                     </div>
                     <!-- end card -->
                 </div><!-- end col-4 -->
+
+                @empty
+                  <h2>No hay seminarios</h2>
+                @endforelse
 
             </div>
             <div class="row">
@@ -189,6 +181,7 @@
                 <!--begin::Modal content-->
                 <div class="modal-content">
                     <!--begin::Form-->
+
                     <form name="enviarFormulario" class="form" action="{{ route('store.Seminario') }}" method="POST"
                         id="kt_modal_add_customer_form" enctype="multipart/form-data">
 
@@ -256,7 +249,7 @@
 
 
                                     <input type="datetime-local" class="form-control form-control-solid" placeholder="Tiempo del evento"
-                                        name="duracion" value="" />
+                                        name="fecha" value="" />
                                     <!--end::Input-->
 
 
@@ -284,6 +277,38 @@
                                     <textarea for="descripcion" type="text" class="form-control form-control-solid" placeholder="Escriba aqui..."
                                         name="descripcion"> </textarea>
 
+                                </div>
+
+                                <div class="fv-row mb-7 ">
+                                    <label for="invitado" class="fs-6 fw-semibold mb-2">Invitados:</label>
+
+                                    <select class="form-control shadow-sm js-example-basic-multiple " name="participante_id[]" multiple="multiple" placeholder="seleccione" required>
+                                        @foreach ($invitados as $invitado )
+
+                                        <option {{in_array($invitado->nombre,old("invitado") ?:[] ) ?  "selected" : ""}} value="{{$invitado->id}}" name="invitado[]">{{$invitado->nombre}}</option>
+
+                                        @endforeach
+                                    </select>
+
+                                    @error('invitado')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="fv-row mb-7 ">
+                                    <label for="participante" class="fs-6 fw-semibold mb-2">Participantes:</label>
+
+                                    <select class="form-control shadow-sm js-example-basic-multiple " name="participanteLocal_id[]" multiple="multiple" placeholder="seleccione" required>
+                                        @foreach ($participantes as $participante )
+
+                                        <option {{in_array($participante->nombre,old("participante") ?:[] ) ?  "selected" : ""}} value="{{$participante->id}}" name="participante[]">{{$participante->nombre}}</option>
+
+                                        @endforeach
+                                    </select>
+
+                                    @error('participante')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
 
@@ -381,6 +406,22 @@
     <script>
         var hostUrl = "/metronic8/";
     </script>
+
+<script>
+    /* script para el select 2 */
+    $(document).ready(function() {
+    $('.js-example-basic-multiple').select2({
+        placeholder:"-- Seleccione --",
+        allowing:true,
+        tags: true,
+        tokenSeparators: [','],
+
+
+    });
+
+
+});
+</script>
 
     <script src="{{ asset('Datatable/js/scripts.bundle.js') }}"></script>
     <script src="{{ asset('Datatable/js/plugins.bundle.js') }}"></script>

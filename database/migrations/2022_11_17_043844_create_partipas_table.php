@@ -15,10 +15,10 @@ class CreatePartipasTable extends Migration
     {
         Schema::create('partipas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('participanteLocal_id');
+            $table->unsignedBigInteger('participante_local_id');
             $table->unsignedBigInteger('seminario_id');
 
-            $table->foreign('participanteLocal_id')->references('id')->on('participante_locals');
+            $table->foreign('participante_local_id')->references('id')->on('participante_locals');
             $table->foreign('seminario_id')->references('id')->on('seminarios');
             $table->timestamps();
         });
