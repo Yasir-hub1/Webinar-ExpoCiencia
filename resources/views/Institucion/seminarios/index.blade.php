@@ -115,9 +115,19 @@
                                         </li>
                                     </ul>
                                 </div>
+                                @if ($seminarios->estado==1)
                                 <div class="col pl-2">
-                                    <span class="badge badge-success float-right">Completed</span>
-                                </div>
+                                <a href="{{route('estado.Seminario',["seminario_id"=>$seminarios->id,"valor"=>0])}}" class="badge badge-success float-right" >Completed</a>
+                                 </div>
+                                @else
+                                <div class="col pl-2">
+                                <a href="{{route('estado.Seminario',["seminario_id"=>$seminarios->id,"valor"=>1])}}" class="badge badge-danger float-right" >Finalizado</a>
+                            </div>
+                                @endif
+
+
+
+
                             </div>
                         </div>
                         <div class="dropdown edit-field-half-left">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pais;
 use App\Models\Idioma;
 use App\Models\Asisten;
+use App\Models\Fotos;
 use App\Models\Profesion;
 use App\Models\Seminario;
 use App\Models\Participante;
@@ -189,7 +190,7 @@ class HomeController extends Controller
 
             $invitado->update(['foto' => $imagen]);
         } else {
-            $imagen =$invitado->foto;
+            $imagen = $invitado->foto;
         }
         $invitado->foto = $imagen;
 
@@ -217,52 +218,156 @@ class HomeController extends Controller
 
     //TODO: FUNCIONES PARA EL SEMINIARIO
 
-    public function indexSeminario(){
+    public function indexSeminario()
+    {
 
-        $seminario=Seminario::where('id_institucion',Auth::user()->id)->get();
-       /*  $seminarios=DB::table('seminarios')
+        $seminario = Seminario::where('id_institucion', Auth::user()->id)->get();
+        /*  $seminarios=DB::table('seminarios')
                       ->select('seminarios.titulo','seminarios.descripcion','participantes.nombre','')
                       ->join('asistens','asistens.seminario_id','=','seminarios.id')
                       ->join('participantes','participantes.id','=','asistens.invitado_id')
                       ->where('seminarios.id_institucion',Auth::user()->id)->get(); */
 
-        $invitados=Participante::where('institucion_id',Auth::user()->id)->get();
-        $participantes=ParticipanteLocal::where('institucion_id',Auth::user()->id)->get();
-        $idioma=Idioma::all();
+        $invitados = Participante::where('institucion_id', Auth::user()->id)->get();
+        $participantes = ParticipanteLocal::where('institucion_id', Auth::user()->id)->get();
+        $idioma = Idioma::all();
 
-      return view('Institucion.seminarios.index',compact('idioma','invitados','participantes','seminario'));
+        return view('Institucion.seminarios.index', compact('idioma', 'invitados', 'participantes', 'seminario'));
     }
 
     // GUARDANDO DATOS DEL SEMINARIO
-    public function storeSeminario(Request  $request){
+    public function storeSeminario(Request  $request)
+    {
 
         // dd($request->input("id_institucion"));
-        $seminario= new Seminario;
-        $seminario->id_institucion= $request->id_institucion;
-        $seminario->id_idioma= $request->id_idioma;
-        $seminario->titulo= $request->titulo;
-        $seminario->descripcion= $request->descripcion;
-        $seminario->duracion= $request->duracion;
-        $seminario->fecha= $request->fecha;
+        $seminario = new Seminario;
+        $seminario->id_institucion = $request->id_institucion;
+        $seminario->id_idioma = $request->id_idioma;
+        $seminario->titulo = $request->titulo;
+        $seminario->descripcion = $request->descripcion;
+        $seminario->duracion = $request->duracion;
+        $seminario->fecha = $request->fecha;
 
-        $seminario->link= $request->link;
+        $seminario->link = $request->link;
 
-        $seminario->lugar= $request->lugar;
+        $seminario->lugar = $request->lugar;
         $seminario->save();
 
-        $seminario->Invitados()->attach($request->participante_id);
-        $seminario->participantes()->attach($request->participanteLocal_id);
+        $seminario->Invitados()->sync($request->participante_id);
+        $seminario->participantes()->sync($request->participanteLocal_id);
 
 
 
 
-      return redirect()->back();
+        return redirect()->route('indexSeminario');
     }
 
 
     // EDITAR UN SEMINARIO
-    public function editSeminario($id){
-    $seminario=Seminario::find($id);
-        return view('Institucion.seminarios.edit',compact('seminario'));
+    public function editSeminario($id)
+    {
+        $seminario = Seminario::find($id);
+
+        $mostrarIMAGE=Fotos::select('fotos')->where('id_seminario',$id)->first();
+
+        $invArray = array();
+        $inv = DB::table('asistens')->where('seminario_id', $id)->get();
+        $invitados = Participante::all();
+        foreach ($inv as $invs) {
+            array_push($invArray, $invs->participante_id);
+        }
+
+
+
+        $partArray = array();
+        $participantes = DB::table('partipas')->where('seminario_id', $id)->get();
+        $partLocal = ParticipanteLocal::all();
+        foreach ($participantes as $part) {
+            array_push($partArray, $part->participante_local_id);
+        }
+
+        $idioma = Idioma::all();
+
+        return view('Institucion.seminarios.edit', compact('mostrarIMAGE','seminario', 'invitados', 'idioma', 'partLocal', 'partArray', 'invArray'));
+    }
+
+    //ACTUALIZANDO DATOS DEL SEMINARIO
+    public function updateSeminario(Request  $request, $id)
+    {
+
+        $images = $request->image;
+
+        if ($request->hasFile('image')) {
+            foreach ($images as $image) {
+                $imagesName = time() . '.' . $image->getClientOriginalName();
+                $ruta = public_path('image/seminario/' . $id . '/');
+                $image->move($ruta, $imagesName);
+                $foto = new Fotos;
+                $foto->id_seminario = $id;
+
+                $foto->fotos =$imagesName;
+                $foto->save();
+            }
+        }
+
+
+                $seminario = Seminario::find($id);
+
+                $seminario->id_institucion = Auth::user()->id;
+                $seminario->id_idioma = $request->id_idioma;
+                $seminario->titulo = $request->titulo;
+                $seminario->descripcion = $request->descripcion;
+                $seminario->duracion = $request->duracion;
+                $seminario->fecha = $request->fecha;
+
+                $seminario->link = $request->link;
+
+                if ($request->hasFile("videoGrabado")) {
+                    $file = $request->File("videoGrabado");
+
+                    $nombre = time() . "." . $file->guessExtension();
+
+
+
+                    $ruta = public_path("videos/" . $nombre);
+
+                    if ($seminario->videoGrabado != '') {
+
+                        unlink(public_path('videos' . '/' . $seminario->videoGrabado));
+                    }
+
+                    // virificacion si el archivo es un pdf
+                    if ($file->guessExtension()) {
+                        copy($file, $ruta);
+                    } else {
+                        dd("NO se subio el video");
+                    }
+                } else {
+                    $nombre = null;
+                }
+                $seminario->videoGrabado = $nombre;
+
+
+
+                $seminario->lugar = $request->lugar;
+                $seminario->save();
+
+
+        $seminario->Invitados()->sync($request->participante_id);
+        $seminario->participantes()->sync($request->participanteLocal_id);
+
+
+        return redirect()->route('indexSeminario');
+    }
+
+    // funcion para actualizar estado del seminario por id
+
+    public function actualizarEstado(Request $request)
+    {
+        $actualizarEstado = Seminario::find($request->seminario_id);
+        $actualizarEstado->estado = $request->valor;
+        $actualizarEstado->update();
+
+        return redirect()->back();
     }
 }

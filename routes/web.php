@@ -54,3 +54,7 @@ Route::post('/Institucion/seminariostore',[HomeController::class,'storeSeminario
 Route::get('/Institucion/seminarioedit/{id}',[HomeController::class,'editSeminario'])->name('edit.Seminario');
 Route::put('/Institucion/seminarioupdate/{id}',[HomeController::class,'updateSeminario'])->name('update.Seminario');
 Route::delete('/Institucion/seminariodelete/{id}',[HomeController::class,'deleteSeminario'])->name('delete.Seminario');
+
+//ACTUALIZANDO ESTADO DEL SEMIMINARIO
+
+Route::get('/Institucion/updateEstado',[HomeController::class,'actualizarEstado'])->name('estado.Seminario');
