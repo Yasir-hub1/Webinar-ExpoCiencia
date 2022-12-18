@@ -140,10 +140,15 @@
                                     <i class="mdi mdi-pencil align-middle mr-1 text-primary"></i>
                                     <span>Edit</span>
                                 </a>
-                                <a href="#" class="dropdown-item">
-                                    <i class="mdi mdi-delete align-middle mr-1 text-danger"></i>
-                                    <span>Delete</span>
-                                </a>
+                                 <form action="{{route('delete.Seminario',$seminarios->id)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                     <button  class="dropdown-item">
+                                         <i class="mdi mdi-delete align-middle mr-1 text-danger"></i>
+                                         <span>Delete</span>
+                                     </button>
+
+                                 </form>
                             </div>
                         </div>
                     </div>

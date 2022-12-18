@@ -11,6 +11,7 @@ use App\Models\Seminario;
 use App\Models\Participante;
 use Illuminate\Http\Request;
 use App\Models\ParticipanteLocal;
+use App\Models\Partipa;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -369,5 +370,33 @@ class HomeController extends Controller
         $actualizarEstado->update();
 
         return redirect()->back();
+    }
+
+
+    // ELIMINAR UN SEMINARIO
+
+    public function deleteSeminario($id){
+
+        $deleteInvitados=Asisten::where('seminario_id',$id);
+        $deleteParticipante=Partipa::where('seminario_id',$id);
+
+        $eliminar=Seminario::find($id);
+
+        $fotos=Fotos::where('id_seminario',$id)->get();
+
+        foreach($fotos as $foto){
+            if ($foto->fotos != '') {
+
+                unlink(public_path('image/seminario/'.$id . '/' . $foto->fotos));
+            }
+
+        }
+        $deleteInvitados->delete();
+        $deleteParticipante->delete();
+
+        $eliminar->delete();
+        return redirect()->back();
+
+
     }
 }
