@@ -15,7 +15,7 @@
     <div class="page-title-box">
         <div class="container-fluid">
             <div class="page-title dflex-between-center">
-                <h3 class="mb-1 font-weight-bold">Mis Seminarios</h3>
+                <h3 class="mb-1 font-weight-bold " style="font-size: 35px">Mis Seminarios</h3>
                 <ol class="breadcrumb mb-0 mt-1">
                     <li class="breadcrumb-item">
                         <a href="../index.html">
@@ -52,7 +52,7 @@
                                     class="btn btn-outline-info waves-effect waves-float">Finished</button>
                             </div> --}}
                         </div>
-                        <div class="col-sm-4">
+                       {{--  <div class="col-sm-4">
                             <form class="float-sm-right mt-3 mt-sm-0">
                                 <div class="search-box">
                                     <div class="position-relative">
@@ -62,7 +62,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                 @endforelse
 
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-12">
                     <ul class="pagination flat-rounded-pagination justify-content-center mb-4">
                         <li class="page-item disabled">
@@ -185,7 +185,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!--begin::Modals-->
