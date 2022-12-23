@@ -24,6 +24,7 @@ class UserEstudianteController extends Controller
         $this->middleware('auth:publico', ['only' => [
             'secret',
 
+
         ]]);
     }
 
@@ -62,6 +63,6 @@ class UserEstudianteController extends Controller
         $public->password = bcrypt($request->get('password'));
         $public->save();
 
-        return redirect()->route('area');
+        return redirect()->route('loginP');
     }
 }

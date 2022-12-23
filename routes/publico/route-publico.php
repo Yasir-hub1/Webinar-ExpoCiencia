@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserEstudianteController;
 
 
-
+Auth::routes();
 //USER ESTUDIANTE
-Route::get('publico/login',[UserEstudianteController::class,'showLoginForm'])->name('loginP');
 Route::post('publico/login',[UserEstudianteController::class,'login'])->name('loginPublico');
+Route::get('publico/login',[UserEstudianteController::class,'showLoginForm'])->name('loginP');
 Route::get("publico/area", [UserEstudianteController::class, 'secret'])->name('area');
 //REGISTRAR PUBLICO
 Route::get('publico/register',[UserEstudianteController::class,'ShowRegisterForm'])->name('registerP');
