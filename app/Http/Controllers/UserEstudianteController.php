@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserEstudiante;
+use App\Models\Asistencia;
+use App\Models\Fotos;
+use App\Models\Seminario;
 use Illuminate\Http\Request;
+use App\Models\UserEstudiante;
+use App\Models\PerfilEstudiante;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -23,6 +27,12 @@ class UserEstudianteController extends Controller
         //Permite ingresar a las vistas autorizadas
         $this->middleware('auth:publico', ['only' => [
             'secret',
+            'mostrarSeminarios',
+            'mostrarPerfil',
+            'editarPerfil',
+            'updatePerfil',
+            'detalleSeminario',
+            'solicitarInscripcion'
 
 
         ]]);
@@ -44,12 +54,12 @@ class UserEstudianteController extends Controller
         return View("publico.inicio");
     }
 
-     //Metodos para el registro de PUBLICO
+    //Metodos para el registro de PUBLICO
 
-     public function ShowRegisterForm()
-     {
-         return view("publico.auth.register");
-     }
+    public function ShowRegisterForm()
+    {
+        return view("publico.auth.register");
+    }
 
     public function store(Request $request)
     {
@@ -64,5 +74,126 @@ class UserEstudianteController extends Controller
         $public->save();
 
         return redirect()->route('loginP');
+    }
+
+    //TODO: MOSTRANDO SEMINARIOS DISPONIBLES EN LAS VISTA DEL PUBLICO ESTUDIANTE
+    public function mostrarSeminarios()
+    {
+        $seminario = Seminario::where("estado", 1)->get();
+
+        return view("publico.inicio", compact("seminario"));
+    }
+
+    // PERFIL DE ESTUDIANTE
+    public function mostrarPerfil($id)
+    {
+        $perfil = PerfilEstudiante::where("user_estudiante_id", $id)->first();
+        return view("publico.perfil.index", compact("perfil", 'id'));
+    }
+
+    // Enviando datos a la vista edit
+    public function editarPerfil($id)
+    {
+        $perfil = PerfilEstudiante::where("user_estudiante_id", $id)->first();
+        return view("publico.perfil.edit", compact("perfil"));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\PerfilEstudiante  $perfil
+     * @return \Illuminate\Http\Response
+     */
+
+    // Actualizar perfil estudiante
+    public function updatePerfil(Request $request, PerfilEstudiante $perfil)
+    {
+
+
+        $data = request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'biografia' => 'required',
+            'carrera' => 'required',
+
+
+
+        ]);
+
+        if ($request['image']) {
+
+            $imagen = time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $request->file('image')->storeAs('image/perfil/', $imagen);
+            $destino = public_path('image/perfil/');
+            $request->image->move($destino, $imagen);
+            if ($perfil->foto != '') {
+                unlink(public_path('image/perfil/' . $perfil->foto));
+            }
+            $perfil->update(['foto' => $imagen]);
+        }
+
+        // Asignar nombre y correo al usuario para actualizar
+        auth()->user()->name = $data['name'];
+        auth()->user()->email = $data['email'];
+        auth()->user()->save();
+
+        // Eliminando nombre y correo
+        unset($data['name']);
+        unset($data['email']);
+
+        // guardando info y aignando biografias,habilidades,exprefiencia
+        auth()->user()->perfil()->update(
+            array_merge(
+                $data,
+                /* $array_imagen ?? [] */
+            )
+        );
+
+        return redirect()->route('mostrarPerfil', Auth::user()->id);
+    }
+
+
+
+    // VER EL DETALLE DEL SEMINARIO
+    public function detalleSeminario($id)
+    {
+        $seminario = Seminario::find($id);
+
+        $fotos = Fotos::select('fotos')->where('id_seminario', $id)->first();
+
+        $solicitud=Asistencia::where('seminario_id',$id)->where('estudiante_id',Auth::user()->id)->first();
+        return view('publico.verSeminario', compact('seminario', 'fotos','solicitud'));
+    }
+
+
+    // SOLICITAR INSCRIPCION DE ESTUDIANTE
+    public  function solicitarInscripcion(Request $request)
+    {
+       $id_seminario = $request->id_seminario;
+       $id_estudiante=$request->id_estudiante;
+
+       $asistencia= new Asistencia;
+       $asistencia->estudiante_id = $id_estudiante;
+       $asistencia->seminario_id=$id_seminario;
+       $asistencia->save();
+
+       return redirect()->back();
+    }
+
+    // ELIMINAR INSCRIPCION DE ESTUDIANTE
+
+    public function eliminarInscripcion(Request $request){
+
+        $eliminarAsistencia = Asistencia::find($request->id_asistencia);
+        if($request->estado==1){
+            $eliminarAsistencia->estado=0;
+        }else{
+            $eliminarAsistencia->estado=1;
+
+        }
+
+        $eliminarAsistencia->update();
+        return redirect()->back();
     }
 }

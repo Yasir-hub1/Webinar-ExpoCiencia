@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Fotos;
 use App\Models\Participante;
 use App\Models\ParticipanteLocal;
 use Illuminate\Database\Eloquent\Model;
@@ -33,5 +34,12 @@ class Seminario extends Model
     public function Invitados()
     {
         return $this->belongsToMany(Participante::class, 'asistens');
+    }
+
+
+    // relacion de 1 a muchos de seminario a fotos
+    public function fotos()
+    {
+        return $this->hasMany(Fotos::class, 'id');
     }
 }

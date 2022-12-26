@@ -76,9 +76,9 @@ class RegisterController extends Controller
         ]);
     }
 
-    protected function indexRegister(){
+    /* protected function indexRegister(){
         $pais=Pais::all();
-
-        return view('auth.register',compact('pais'));
-    }
+        $data="xd";
+        return view('auth.register')->with($data,"data");
+    } */
 }

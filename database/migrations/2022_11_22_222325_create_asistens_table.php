@@ -20,6 +20,8 @@ class CreateAsistensTable extends Migration
 
             $table->foreign('participante_id')->references('id')->on('participantes');
             $table->foreign('seminario_id')->references('id')->on('seminarios');
+
+            
             $table->timestamps();
         });
     }

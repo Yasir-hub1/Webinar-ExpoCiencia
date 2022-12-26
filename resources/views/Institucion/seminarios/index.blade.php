@@ -79,7 +79,7 @@
                                 <div class="media-body overflow-hidden">
                                     <h5 class="card-title mb-2 pr-4 text-truncate"><a href="#" class="text-dark"
                                             title={{$seminarios->titulo}}>{{$seminarios->titulo}}</a></h5>
-                                    <p class="text-muted mb-3">{{$seminarios->descripcion}}</p>
+                                    {{-- <p class="text-muted mb-3">{{$seminarios->descripcion}}</p> --}}
                                     <div class="circle-condense-profiles">
                                        @foreach ($seminarios->Invitados as $invi)
 
@@ -117,7 +117,7 @@
                                 </div>
                                 @if ($seminarios->estado==1)
                                 <div class="col pl-2">
-                                <a href="{{route('estado.Seminario',["seminario_id"=>$seminarios->id,"valor"=>0])}}" class="badge badge-success float-right" >Completed</a>
+                                <a href="{{route('estado.Seminario',["seminario_id"=>$seminarios->id,"valor"=>0])}}" class="badge badge-success float-right" >En curso</a>
                                  </div>
                                 @else
                                 <div class="col pl-2">
@@ -240,7 +240,7 @@
 
 
                                     <input type="text" class="form-control form-control-solid"
-                                        placeholder="Titulo" name="titulo" value="" />
+                                        placeholder="Titulo" name="titulo" value=""  required/>
                                     <!--end::Input-->
 
                                     <input type="hidden" name="id_institucion" value="{{ Auth::user()->id }}">

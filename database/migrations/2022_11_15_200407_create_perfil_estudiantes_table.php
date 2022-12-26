@@ -19,7 +19,7 @@ class CreatePerfilEstudiantesTable extends Migration
             $table->text("biografia")->nullable();
             $table->string("foto")->nullable();
 
-            $table->foreignId('user_id')
+            $table->foreignId('user_estudiante_id')
                 ->nullable()
                 ->constrained('user_estudiantes')
                 ->cascadeOnUpdate()

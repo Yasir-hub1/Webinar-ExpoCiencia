@@ -75,6 +75,9 @@
                                         class="form-control @error('id_pais') is-invalid @enderror" name="id_pais"
                                         value="{{ old('id_pais') }}" required autocomplete="id_pais" autofocus
                                     >
+                                    @php
+                                        $pais=DB::table("pais")->get();
+                                    @endphp
                                         <option value="" @disabled(true)>--Selecciona--</option>
                                         @foreach ($pais as $paises )
                                         <option value="{{$paises->id}}">{{$paises->nombrePais}}</option>

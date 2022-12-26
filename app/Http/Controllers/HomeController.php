@@ -41,8 +41,9 @@ class HomeController extends Controller
     public function indexRegister()
     {
         $pais = Pais::all();
+        $data="xd";
 
-        return view('auth.register', compact('pais'));
+        return view('auth.register', compact('data'));
     }
 
     //TODO: FUNCIONES PARA LA INSTITUCION

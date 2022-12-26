@@ -20,6 +20,7 @@ class CreateAsistenciasTable extends Migration
 
             $table->foreign('estudiante_id')->references('id')->on('user_estudiantes');
             $table->foreign('seminario_id')->references('id')->on('seminarios');
+            $table->boolean('estado')->default(0);
             $table->timestamps();
         });
     }
