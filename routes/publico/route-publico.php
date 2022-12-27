@@ -30,3 +30,8 @@ Route::post('publico/incripcion/{id}',[UserEstudianteController::class,'solicita
 
 // ELIMINAR INSCRIPCION
 Route::post('publico/incripcionDelete/{id}',[UserEstudianteController::class,'eliminarInscripcion'])->name('inscripcionEliminar');
+
+
+// VER SEMINARIOS INSCRITOS
+Route::get('publico/inscripciones/{id}',[UserEstudianteController::class,'verTodosSemInscritos'])->name('inscritos');
+

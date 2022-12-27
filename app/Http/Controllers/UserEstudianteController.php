@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Asistencia;
 use App\Models\Fotos;
 use App\Models\Seminario;
+use App\Models\Asistencia;
 use Illuminate\Http\Request;
 use App\Models\UserEstudiante;
 use App\Models\PerfilEstudiante;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -32,7 +33,9 @@ class UserEstudianteController extends Controller
             'editarPerfil',
             'updatePerfil',
             'detalleSeminario',
-            'solicitarInscripcion'
+            'solicitarInscripcion',
+            'verTodosSemInscritos',
+
 
 
         ]]);
@@ -196,4 +199,21 @@ class UserEstudianteController extends Controller
         $eliminarAsistencia->update();
         return redirect()->back();
     }
+
+
+    // VER SEMINARIOS INSCRITOS => id = id del usuario
+     public function verTodosSemInscritos(Request $request,$id){
+        $simInscrito=DB::table('user_estudiantes')
+                    ->select('seminarios.id','seminarios.titulo','seminarios.descripcion','seminarios.fecha','seminarios.duracion','seminarios.lugar','fotos.fotos')
+                    ->join('asistencias','asistencias.estudiante_id','=','user_estudiantes.id')
+                    ->join('seminarios','seminarios.id','=','asistencias.seminario_id')
+                    ->join('fotos','fotos.id_seminario','=','seminarios.id')
+                    ->where('asistencias.estado',0)
+                    ->where('asistencias.estudiante_id',$id)
+                    ->get();
+
+
+        return view('publico.inscritos',compact('id','simInscrito'));
+
+     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InicioController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UserEstudianteController;
 
@@ -17,13 +18,15 @@ use App\Http\Controllers\UserEstudianteController;
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-});
+}); */
 
+Route::get('/', [InicioController::class, 'paginaPrincipal'])->name('paginaPrincipal');
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 
 //TODO:INSTITUCION
 //mandando paises a esta vista
